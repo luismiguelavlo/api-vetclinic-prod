@@ -42,6 +42,7 @@ export class UserRoutes {
     router.post('/login', controller.login);
     router.get('/validate-account/:token', controller.validateAccount);
     router.use(AuthMiddleware.protect);
+    router.get('/me', controller.findMyInfo);
     router.get('/', controller.findAll);
     router.get('/:id', controller.findOne);
     router.patch('/:id', controller.update);

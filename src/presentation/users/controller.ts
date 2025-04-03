@@ -115,4 +115,9 @@ export class UserController {
       .then(() => res.send('Email validated sucessfully'))
       .catch((err) => this.handleError(err, res));
   };
+
+  findMyInfo = (req: Request, res: Response) => {
+    const { user } = req.body.sessionUser;
+    res.status(200).json(user);
+  };
 }
