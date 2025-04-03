@@ -11,6 +11,7 @@ export class FinderDoctorService {
             fullname: true,
             email: true,
             phone_number: true,
+            photo_url: true,
           },
         },
       });

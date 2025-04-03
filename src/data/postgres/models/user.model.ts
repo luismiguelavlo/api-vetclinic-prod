@@ -48,6 +48,12 @@ export class User extends BaseEntity {
   })
   phone_number: string;
 
+  @Column('varchar', {
+    length: 255,
+    nullable: true,
+  })
+  photo_url: string;
+
   @Column('enum', {
     enum: UserRole,
     default: UserRole.USER,

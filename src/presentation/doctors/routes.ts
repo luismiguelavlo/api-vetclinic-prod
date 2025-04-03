@@ -19,8 +19,8 @@ export class DoctorRoutes {
       finderDoctorService
     );
 
-    router.use(AuthMiddleware.protect);
     router.get('/', controller.findAll);
+    router.use(AuthMiddleware.protect);
     router.post(
       '/',
       AuthMiddleware.restrictTo(UserRole.ADMIN),

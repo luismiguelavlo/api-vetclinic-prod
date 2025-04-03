@@ -19,6 +19,12 @@ export class Specie extends BaseEntity {
   })
   name: string;
 
+  @Column('varchar', {
+    length: 255,
+    nullable: true,
+  })
+  img_url: string;
+
   @OneToOne(() => Pet, (pet) => pet.specie)
   pet: Pet;
 }
