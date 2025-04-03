@@ -25,8 +25,8 @@ export class LoginUserService {
     };
   }
 
-  private ensureUserExists(email: string) {
-    const user = User.findOne({
+  private async ensureUserExists(email: string) {
+    const user = await User.findOne({
       where: {
         email: email,
         status: true,
