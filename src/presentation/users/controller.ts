@@ -97,8 +97,8 @@ export class UserController {
       .then((data) => {
         res.cookie('token', data.token, {
           httpOnly: true,
-          secure: envs.NODE_ENV === 'production',
-          sameSite: 'strict',
+          secure: true,
+          sameSite: 'none',
           maxAge: 3 * 60 * 60 * 1000,
         });
 
