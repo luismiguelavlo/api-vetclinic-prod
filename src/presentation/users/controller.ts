@@ -117,7 +117,9 @@ export class UserController {
   };
 
   findMyInfo = (req: Request, res: Response) => {
-    const { user } = req.body.sessionUser;
-    res.status(200).json(user);
+    const sessionUser = req.body.sessionUser;
+    res.status(200).json({
+      user: sessionUser,
+    });
   };
 }
