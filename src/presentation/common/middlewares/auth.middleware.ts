@@ -4,9 +4,21 @@ import { User, UserRole } from '../../../data/postgres/models/user.model';
 
 export class AuthMiddleware {
   static async protect(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies.token;
+    // Try to get token from cookies first
+    let token = req.cookies.token;
 
-    if (!token) return res.status(401).json({ message: 'No token provided ' });
+    // If no token in cookies, try to get it from Authorization header
+    if (!token) {
+      const authorization = req.header('Authorization');
+
+      if (!authorization)
+        return res.status(401).json({ message: 'No token provided' });
+
+      if (!authorization.startsWith('Bearer '))
+        return res.status(401).json({ message: 'Invalid Token' });
+
+      token = authorization.split(' ').at(1) || '';
+    }
 
     try {
       const payload = (await JwtAdapter.validateToken(token)) as { id: string };

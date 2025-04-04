@@ -102,7 +102,7 @@ export class UserController {
           maxAge: 3 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ user: data.user });
+        return res.status(200).json(data);
       })
       .catch((err) => this.handleError(err, res));
   };
