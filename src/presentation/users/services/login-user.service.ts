@@ -18,6 +18,7 @@ export class LoginUserService {
       token,
       user: {
         id: user?.id,
+        fullname: user?.fullname,
         email: user?.email,
         phone: user?.phone_number,
         rol: user?.rol,
