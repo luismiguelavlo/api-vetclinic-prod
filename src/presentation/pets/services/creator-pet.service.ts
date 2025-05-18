@@ -1,3 +1,4 @@
+import { envs } from '../../../config';
 import { Pet } from '../../../data/postgres/models/pet.model';
 import { User } from '../../../data/postgres/models/user.model';
 import { CreatePetDto, CustomError } from '../../../domain';
@@ -23,6 +24,9 @@ export class CreatorPetService {
         message: 'Pet created succesfully',
       };
     } catch (error) {
+      if (envs.NODE_ENV === 'development') {
+        console.log(error);
+      }
       throw CustomError.internalServer('Error creating pet');
     }
   }

@@ -1,20 +1,20 @@
-import { Doctor } from '../../../data/postgres/models/doctor.model';
+import { User, UserRole } from '../../../data/postgres/models/user.model';
 import { CustomError } from '../../../domain';
 
-export class FinderDoctorService {
-  async execute() {
+export class FinderDoctorsService {
+  async execute(limit: number, offset: number) {
     try {
-      return Doctor.find({
-        relations: ['user'],
-        select: {
-          user: {
-            fullname: true,
-            email: true,
-            phone_number: true,
-            photo_url: true,
-          },
+      const [doctors, total] = await User.findAndCount({
+        where: {
+          status: true,
+          rol: UserRole.DOCTOR,
         },
+        select: ['id', 'fullname', 'phone_number', 'email', 'photo_url'],
+        take: limit,
+        skip: offset,
       });
+
+      return { doctors, total };
     } catch (error: any) {
       throw CustomError.internalServer(error);
     }

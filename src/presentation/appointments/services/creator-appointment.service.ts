@@ -14,11 +14,8 @@ export class CreatorAppointmentService {
   ) {}
 
   async execute(appointmentData: CreateAppointmentDto) {
-    //primero vamos a buscar el usuario doctor
-    const user = await this.finderDoctorService.execute(appointmentData.userId); //este es el doctor
-    //buscar la mascota
+    const user = await this.finderDoctorService.execute(appointmentData.userId);
     const pet = await this.finderPetService.execute(appointmentData.petId);
-    //buscar si el medico tiene agenda para esa fecha y hora
 
     const formatDate = moment(appointmentData.date).format(
       'YYYY-MM-DD h:mm:ss'
@@ -26,7 +23,6 @@ export class CreatorAppointmentService {
 
     await this.ensureAppointmentExist(appointmentData, formatDate);
 
-    //crear el registro en bd
     const newAppointment = new Appointment();
 
     newAppointment.date = appointmentData.date;

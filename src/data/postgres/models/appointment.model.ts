@@ -1,29 +1,17 @@
-/*
-Table appointment {
-  id uuid [pk]
-  status AppointmentStatus [default: 'pending', not null]
-  date datetime [not null]
-  reason text [not null]
-
-  user_id uuid [not null]
-  pet_id uuid [not null]
-
-  created_at datetime [default: 'now()']
-}
-*/
-
 import {
   BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user.model';
 import { Pet } from './pet.model';
+import { MedicalHistory } from './medical-history.model'; // IMPORTANTE agregar esto
 
-enum AppointmentStatus {
+export enum AppointmentStatus {
   PENDING = 'pending',
   COMPLETED = 'completed',
   CANCELED = 'canceled',
@@ -64,4 +52,10 @@ export class Appointment extends BaseEntity {
   @ManyToOne(() => Pet, (pet) => pet.appointment)
   @JoinColumn({ name: 'pet_id' })
   pet: Pet;
+
+  @OneToMany(
+    () => MedicalHistory,
+    (medicalHistory) => medicalHistory.appointment
+  ) // NUEVA RELACIÓN
+  medicalHistory: MedicalHistory[];
 }

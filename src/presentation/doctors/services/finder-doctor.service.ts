@@ -1,4 +1,3 @@
-import { Doctor } from '../../../data/postgres/models/doctor.model';
 import { User, UserRole } from '../../../data/postgres/models/user.model';
 import { CustomError } from '../../../domain';
 
@@ -10,6 +9,15 @@ export class FinderDoctorService {
         rol: UserRole.DOCTOR,
         status: true,
       },
+      relations: ['speciality'],
+      select: [
+        'id',
+        'fullname',
+        'email',
+        'phone_number',
+        'photo_url',
+        'speciality',
+      ],
     });
 
     if (!user) {

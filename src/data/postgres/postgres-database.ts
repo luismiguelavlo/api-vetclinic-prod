@@ -1,9 +1,10 @@
 import { DataSource } from 'typeorm';
 import { User } from './models/user.model';
 import { Pet } from './models/pet.model';
-import { Doctor } from './models/doctor.model';
+import { Speciality } from './models/speciality.model';
 import { Specie } from './models/specie.model';
 import { Appointment } from './models/appointment.model';
+import { MedicalHistory } from './models/medical-history.model';
 
 interface Options {
   host: string;
@@ -18,7 +19,7 @@ interface Options {
  *
  * @remarks
  * Esta clase congiura y administra la conexión a una base de datos, incluyendo la inicializacion de
- * las entidades: User, Pet, Doctor, Specie, y Appointment,
+ * las entidades: User, Pet, Speciality, Specie, y Appointment,
  *
  * La conexión se configura para sincronizar el esquema de la base de datos y utiliza SSL con
  * `rejectUnauthorized: false` para evitar errores en entornos de desarrollo
@@ -53,7 +54,7 @@ export class PostgresDatabase {
       password: options.password,
       database: options.database,
       synchronize: true,
-      entities: [User, Pet, Doctor, Specie, Appointment],
+      entities: [User, Pet, Speciality, MedicalHistory, Specie, Appointment],
       ssl: {
         rejectUnauthorized: false,
       },

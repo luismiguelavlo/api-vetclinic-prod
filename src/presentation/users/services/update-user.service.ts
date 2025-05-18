@@ -1,9 +1,16 @@
+import { protectAccountOwner } from '../../../config';
 import { User } from '../../../data/postgres/models/user.model';
 import { CustomError, UpdateUserDto } from '../../../domain';
 
 export class UpdateUserService {
-  async execute(userId: string, userData: UpdateUserDto) {
+  async execute(
+    userId: string,
+    sessionUserId: string,
+    userData: UpdateUserDto
+  ) {
     const user = await this.ensureUserExists(userId);
+
+    this.ensureOwner(userId, sessionUserId);
 
     user.fullname = userData.fullname;
     user.email = userData.email;
@@ -32,6 +39,14 @@ export class UpdateUserService {
     }
 
     return user;
+  }
+
+  private async ensureOwner(userId: string, sessionUserId: string) {
+    const isOwner = protectAccountOwner(userId, sessionUserId);
+
+    if (!isOwner) {
+      throw CustomError.forbiden('You are not the owner of this account');
+    }
   }
 
   private throwException(error: any) {

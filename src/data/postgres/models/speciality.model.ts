@@ -9,7 +9,7 @@ import {
 import { User } from './user.model';
 
 @Entity()
-export class Doctor extends BaseEntity {
+export class Speciality extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,6 +19,6 @@ export class Doctor extends BaseEntity {
   })
   speciality: string;
 
-  @OneToOne(() => User, (user) => user.doctor)
+  @OneToOne(() => User, (user) => user.speciality)
   user: User;
 }

@@ -3,7 +3,6 @@ import { CustomError } from '../../../domain';
 
 export class DeleteUserService {
   async execute(userId: string) {
-    return true;
     const user = await this.ensureUserExists(userId);
 
     user.status = false;

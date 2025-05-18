@@ -5,3 +5,8 @@ export * from './dtos/users/login-user.dto';
 export * from './dtos/doctors/create-doctor.dto';
 export * from './dtos/species/create-specie.dto';
 export * from './dtos/pet/pet.dto';
+export * from './dtos/users/change-password.dto';
+export * from './dtos/pet/update-pet.dto';
+export * from './dtos/appointment/update-appointment.dto';
+export * from './dtos/doctors/update-doctor.dto';
+export * from './dtos/medical-history/create-medical-history.dto';

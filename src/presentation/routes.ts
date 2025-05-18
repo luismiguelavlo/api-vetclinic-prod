@@ -4,6 +4,7 @@ import { DoctorRoutes } from './doctors/routes';
 import { SpeciesRoutes } from './species/routes';
 import { PetRoutes } from './pets/routes';
 import { AppointmentsRoute } from './appointments/routes';
+import { MedicalHistoryRoutes } from './medical-history/routes';
 
 export class AppRoutes {
   static get routes(): Router {
@@ -14,6 +15,7 @@ export class AppRoutes {
     router.use('/api/species', SpeciesRoutes.routes);
     router.use('/api/pets', PetRoutes.routes);
     router.use('/api/appointments', AppointmentsRoute.routes);
+    router.use('/api/medical-history', MedicalHistoryRoutes.routes);
 
     return router;
   }

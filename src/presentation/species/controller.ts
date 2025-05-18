@@ -20,9 +20,25 @@ export class SpeciesController {
   };
 
   findAll = (req: Request, res: Response) => {
+    const { limit = 10, page = 1 } = req.query;
+
+    const limitNum = typeof limit === 'string' ? parseInt(limit, 10) : limit;
+    const pageNum = typeof page === 'string' ? parseInt(page, 10) : page;
+    const offset = (+pageNum - 1) * +limitNum;
+
     this.finderSpeciesService
-      .execute()
-      .then((data) => res.status(200).json(data))
+      .execute(+limitNum, offset)
+      .then(({ species, total }) =>
+        res.status(200).json({
+          data: species,
+          meta: {
+            currentPage: pageNum,
+            totalPages: Math.ceil(total / +limitNum),
+            totalRecords: total,
+            recordsPerPage: limitNum,
+          },
+        })
+      )
       .catch((error) => this.handleError(error, res));
   };
 

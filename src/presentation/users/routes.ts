@@ -9,7 +9,8 @@ import { LoginUserService } from './services/login-user.service';
 import { EmailService } from '../common/services/email.service';
 import { envs } from '../../config';
 import { AuthMiddleware } from '../common/middlewares/auth.middleware';
-import { UserRole } from '../../data/postgres/models/user.model';
+import { User, UserRole } from '../../data/postgres/models/user.model';
+import { UpdatePasswordService } from './services/update-password.service';
 
 export class UserRoutes {
   static get routes(): Router {
@@ -28,6 +29,7 @@ export class UserRoutes {
     const updateUser = new UpdateUserService();
     const deleteUser = new DeleteUserService();
     const loginUser = new LoginUserService();
+    const updatePassword = new UpdatePasswordService();
 
     const controller = new UserController(
       registerUser,
@@ -35,7 +37,8 @@ export class UserRoutes {
       finderUser,
       updateUser,
       deleteUser,
-      loginUser
+      loginUser,
+      updatePassword
     );
 
     router.post('/register', controller.register);
@@ -43,8 +46,17 @@ export class UserRoutes {
     router.get('/validate-account/:token', controller.validateAccount);
     router.use(AuthMiddleware.protect);
     router.get('/me', controller.findMyInfo);
-    router.get('/', controller.findAll);
-    router.get('/:id', controller.findOne);
+    router.get(
+      '/',
+      AuthMiddleware.restrictTo(UserRole.ADMIN, UserRole.DOCTOR),
+      controller.findAll
+    );
+    router.get(
+      '/:id',
+      AuthMiddleware.restrictTo(UserRole.ADMIN),
+      controller.findOne
+    );
+    router.patch('/password', controller.updatePassword);
     router.patch('/:id', controller.update);
     router.delete(
       '/:id',

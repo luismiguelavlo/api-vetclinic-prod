@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Pet } from './pet.model';
 import { Appointment } from './appointment.model';
-import { Doctor } from './doctor.model';
+import { Speciality } from './speciality.model';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -44,7 +44,7 @@ export class User extends BaseEntity {
 
   @Column('varchar', {
     length: 20,
-    nullable: false,
+    nullable: true,
   })
   phone_number: string;
 
@@ -79,7 +79,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointment: Appointment[];
 
-  @OneToOne(() => Doctor, (doctor) => doctor.user)
-  @JoinColumn({ name: 'speciality' })
-  doctor: Doctor;
+  @OneToOne(() => Speciality, (speciality) => speciality.user, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'speciality_id' })
+  speciality: Speciality;
 }
